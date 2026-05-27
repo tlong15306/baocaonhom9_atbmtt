@@ -92,7 +92,7 @@ public class DSAController implements Initializable {
         
         // Hiển thị progress
         keyProgress.setVisible(true);
-        keyStatusLabel.setText("⏳ Đang sinh khóa DSA " + keySize + " bit...");
+        keyStatusLabel.setText("Đang sinh khóa DSA " + keySize + " bit...");
         keyStatusLabel.setStyle("-fx-text-fill: #f0ad4e;");
         keyResultBox.setVisible(false);
         keyResultBox.setManaged(false);
@@ -108,7 +108,7 @@ public class DSAController implements Initializable {
         
         task.setOnSucceeded(e -> {
             keyProgress.setVisible(false);
-            keyStatusLabel.setText("✅ Sinh khóa thành công! Kích thước: " + keySize + " bit");
+            keyStatusLabel.setText("Sinh khóa thành công! Kích thước: " + keySize + " bit");
             keyStatusLabel.setStyle("-fx-text-fill: #5cb85c;");
             
             // Hiển thị các tham số
@@ -137,7 +137,7 @@ public class DSAController implements Initializable {
         
         task.setOnFailed(e -> {
             keyProgress.setVisible(false);
-            keyStatusLabel.setText("❌ Lỗi sinh khóa: " + task.getException().getMessage());
+            keyStatusLabel.setText("Lỗi sinh khóa: " + task.getException().getMessage());
             keyStatusLabel.setStyle("-fx-text-fill: #d9534f;");
         });
         
@@ -154,13 +154,13 @@ public class DSAController implements Initializable {
             String message = messageArea.getText();
             
             if (message == null || message.trim().isEmpty()) {
-                signStatusLabel.setText("⚠️ Vui lòng nhập thông điệp cần ký!");
+                signStatusLabel.setText("Vui lòng nhập thông điệp cần ký!");
                 signStatusLabel.setStyle("-fx-text-fill: #f0ad4e;");
                 return;
             }
             
             if (!dsaModel.hasKeyPair()) {
-                signStatusLabel.setText("⚠️ Chưa có cặp khóa! Vui lòng sinh khóa trước (Tab 1).");
+                signStatusLabel.setText("Chưa có cặp khóa! Vui lòng sinh khóa trước (Tab 1).");
                 signStatusLabel.setStyle("-fx-text-fill: #f0ad4e;");
                 
                 // Chuyển sang tab sinh khóa
@@ -175,7 +175,7 @@ public class DSAController implements Initializable {
             signatureArea.setText(signatureBase64);
             hashArea.setText(dsaModel.getLastHashHex().toUpperCase());
             
-            signStatusLabel.setText("✅ Thông điệp đã được ký thành công bằng SHA256withDSA!");
+            signStatusLabel.setText("Thông điệp đã được ký thành công bằng SHA256withDSA!");
             signStatusLabel.setStyle("-fx-text-fill: #5cb85c;");
             
             // Tự động điền vào tab Xác minh
@@ -190,7 +190,7 @@ public class DSAController implements Initializable {
             fade.play();
             
         } catch (Exception e) {
-            signStatusLabel.setText("❌ Lỗi ký số: " + e.getMessage());
+            signStatusLabel.setText("Lỗi ký số: " + e.getMessage());
             signStatusLabel.setStyle("-fx-text-fill: #d9534f;");
         }
     }
@@ -206,19 +206,19 @@ public class DSAController implements Initializable {
             String signature = verifySignatureArea.getText();
             
             if (message == null || message.trim().isEmpty()) {
-                verifyStatusLabel.setText("⚠️ Vui lòng nhập thông điệp cần xác minh!");
+                verifyStatusLabel.setText("Vui lòng nhập thông điệp cần xác minh!");
                 verifyStatusLabel.setStyle("-fx-text-fill: #f0ad4e;");
                 return;
             }
             
             if (signature == null || signature.trim().isEmpty()) {
-                verifyStatusLabel.setText("⚠️ Vui lòng nhập chữ ký số cần xác minh!");
+                verifyStatusLabel.setText("Vui lòng nhập chữ ký số cần xác minh!");
                 verifyStatusLabel.setStyle("-fx-text-fill: #f0ad4e;");
                 return;
             }
             
             if (!dsaModel.hasKeyPair()) {
-                verifyStatusLabel.setText("⚠️ Chưa có cặp khóa! Vui lòng sinh khóa trước.");
+                verifyStatusLabel.setText("Chưa có cặp khóa! Vui lòng sinh khóa trước.");
                 verifyStatusLabel.setStyle("-fx-text-fill: #f0ad4e;");
                 return;
             }
@@ -229,13 +229,13 @@ public class DSAController implements Initializable {
             verifyResultBox.setManaged(true);
             
             if (isValid) {
-                verifyResultLabel.setText("✅ CHỮ KÝ HỢP LỆ");
+                verifyResultLabel.setText("CHỮ KÝ HỢP LỆ");
                 verifyResultLabel.setStyle("-fx-text-fill: #5cb85c; -fx-font-weight: bold; -fx-font-size: 16px;");
                 verifyIndicator.setFill(Color.web("#5cb85c"));
                 verifyStatusLabel.setText("Xác minh thành công! Thông điệp chưa bị thay đổi.");
                 verifyStatusLabel.setStyle("-fx-text-fill: #5cb85c;");
             } else {
-                verifyResultLabel.setText("❌ CHỮ KÝ KHÔNG HỢP LỆ");
+                verifyResultLabel.setText("CHỮ KÝ KHÔNG HỢP LỆ");
                 verifyResultLabel.setStyle("-fx-text-fill: #d9534f; -fx-font-weight: bold; -fx-font-size: 16px;");
                 verifyIndicator.setFill(Color.web("#d9534f"));
                 verifyStatusLabel.setText("Cảnh báo: Thông điệp có thể đã bị giả mạo hoặc chữ ký không đúng!");
@@ -251,10 +251,10 @@ public class DSAController implements Initializable {
             scale.play();
             
         } catch (IllegalArgumentException e) {
-            verifyStatusLabel.setText("❌ Chữ ký không đúng định dạng Base64!");
+            verifyStatusLabel.setText("Chữ ký không đúng định dạng Base64!");
             verifyStatusLabel.setStyle("-fx-text-fill: #d9534f;");
         } catch (Exception e) {
-            verifyStatusLabel.setText("❌ Lỗi xác minh: " + e.getMessage());
+            verifyStatusLabel.setText("Lỗi xác minh: " + e.getMessage());
             verifyStatusLabel.setStyle("-fx-text-fill: #d9534f;");
         }
     }
@@ -294,7 +294,7 @@ public class DSAController implements Initializable {
             javafx.scene.input.ClipboardContent content = new javafx.scene.input.ClipboardContent();
             content.putString(signatureArea.getText());
             clipboard.setContent(content);
-            signStatusLabel.setText("📋 Đã sao chép chữ ký vào clipboard!");
+            signStatusLabel.setText("Đã sao chép chữ ký vào clipboard!");
             signStatusLabel.setStyle("-fx-text-fill: #5bc0de;");
         }
     }

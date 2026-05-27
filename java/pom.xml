@@ -13,8 +13,8 @@
     <description>Ứng dụng minh họa thuật toán Chữ ký số DSA - Nhóm 9 ATBMTT</description>
 
     <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.source>25</maven.compiler.source>
+        <maven.compiler.target>25</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <javafx.version>21.0.2</javafx.version>
         <mainClass>com.nhom9.atbmtt.DSAApplication</mainClass>

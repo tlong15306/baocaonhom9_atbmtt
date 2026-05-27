@@ -26,7 +26,7 @@ public class DSAApplication extends Application {
         scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
 
         // Thiết lập Stage
-        primaryStage.setTitle("🔐 DSA Digital Signature - Nhóm 9 ATBMTT");
+        primaryStage.setTitle("DSA Digital Signature - Nhóm 9 ATBMTT");
         primaryStage.setScene(scene);
         primaryStage.setMinWidth(900);
         primaryStage.setMinHeight(680);
