@@ -78,7 +78,7 @@ public class DSAController implements Initializable {
         }
         
         // Cập nhật footer
-        footerLabel.setText("Nhóm 9 - An Toàn Bảo Mật Thông Tin | DSA Digital Signature Demo | 2025");
+        footerLabel.setText("Nhóm 9 - An Toàn Bảo Mật Thông Tin | DSA Digital Signature Demo | 2025-2026");
     }
 
     /**
