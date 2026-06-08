@@ -1,0 +1,32 @@
+[
+{
+  "directory": "C:/TUYETMATDSA/build",
+  "command": "c:\\Qt\\Tools\\mingw1310_64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 -IC:/TUYETMATDSA/build/moi_autogen/include -isystem C:/msys64/ucrt64/include -isystem C:/Qt/6.11.1/mingw_64/include/QtCore -isystem C:/Qt/6.11.1/mingw_64/include -isystem C:/Qt/6.11.1/mingw_64/mkspecs/win32-g++ -isystem C:/Qt/6.11.1/mingw_64/include/QtWidgets -isystem C:/Qt/6.11.1/mingw_64/include/QtGui -DQT_QML_DEBUG -DQT_DECLARATIVE_DEBUG -g -std=gnu++17 -o CMakeFiles\\moi.dir\\moi_autogen\\mocs_compilation.cpp.obj -c C:\\TUYETMATDSA\\build\\moi_autogen\\mocs_compilation.cpp",
+  "file": "C:/TUYETMATDSA/build/moi_autogen/mocs_compilation.cpp",
+  "output": "C:/TUYETMATDSA/build/CMakeFiles/moi.dir/moi_autogen/mocs_compilation.cpp.obj"
+},
+{
+  "directory": "C:/TUYETMATDSA/build",
+  "command": "c:\\Qt\\Tools\\mingw1310_64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 -IC:/TUYETMATDSA/build/moi_autogen/include -isystem C:/msys64/ucrt64/include -isystem C:/Qt/6.11.1/mingw_64/include/QtCore -isystem C:/Qt/6.11.1/mingw_64/include -isystem C:/Qt/6.11.1/mingw_64/mkspecs/win32-g++ -isystem C:/Qt/6.11.1/mingw_64/include/QtWidgets -isystem C:/Qt/6.11.1/mingw_64/include/QtGui -DQT_QML_DEBUG -DQT_DECLARATIVE_DEBUG -g -std=gnu++17 -o CMakeFiles\\moi.dir\\src\\main.cpp.obj -c C:\\TUYETMATDSA\\src\\main.cpp",
+  "file": "C:/TUYETMATDSA/src/main.cpp",
+  "output": "C:/TUYETMATDSA/build/CMakeFiles/moi.dir/src/main.cpp.obj"
+},
+{
+  "directory": "C:/TUYETMATDSA/build",
+  "command": "c:\\Qt\\Tools\\mingw1310_64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 -IC:/TUYETMATDSA/build/moi_autogen/include -isystem C:/msys64/ucrt64/include -isystem C:/Qt/6.11.1/mingw_64/include/QtCore -isystem C:/Qt/6.11.1/mingw_64/include -isystem C:/Qt/6.11.1/mingw_64/mkspecs/win32-g++ -isystem C:/Qt/6.11.1/mingw_64/include/QtWidgets -isystem C:/Qt/6.11.1/mingw_64/include/QtGui -DQT_QML_DEBUG -DQT_DECLARATIVE_DEBUG -g -std=gnu++17 -o CMakeFiles\\moi.dir\\src\\mainwindow.cpp.obj -c C:\\TUYETMATDSA\\src\\mainwindow.cpp",
+  "file": "C:/TUYETMATDSA/src/mainwindow.cpp",
+  "output": "C:/TUYETMATDSA/build/CMakeFiles/moi.dir/src/mainwindow.cpp.obj"
+},
+{
+  "directory": "C:/TUYETMATDSA/build",
+  "command": "c:\\Qt\\Tools\\mingw1310_64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 -IC:/TUYETMATDSA/build/moi_autogen/include -isystem C:/msys64/ucrt64/include -isystem C:/Qt/6.11.1/mingw_64/include/QtCore -isystem C:/Qt/6.11.1/mingw_64/include -isystem C:/Qt/6.11.1/mingw_64/mkspecs/win32-g++ -isystem C:/Qt/6.11.1/mingw_64/include/QtWidgets -isystem C:/Qt/6.11.1/mingw_64/include/QtGui -DQT_QML_DEBUG -DQT_DECLARATIVE_DEBUG -g -std=gnu++17 -o CMakeFiles\\moi.dir\\src\\dsa_model.cpp.obj -c C:\\TUYETMATDSA\\src\\dsa_model.cpp",
+  "file": "C:/TUYETMATDSA/src/dsa_model.cpp",
+  "output": "C:/TUYETMATDSA/build/CMakeFiles/moi.dir/src/dsa_model.cpp.obj"
+},
+{
+  "directory": "C:/TUYETMATDSA/build",
+  "command": "c:\\Qt\\Tools\\mingw1310_64\\bin\\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NEEDS_QMAIN -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 -IC:/TUYETMATDSA/build/moi_autogen/include -isystem C:/msys64/ucrt64/include -isystem C:/Qt/6.11.1/mingw_64/include/QtCore -isystem C:/Qt/6.11.1/mingw_64/include -isystem C:/Qt/6.11.1/mingw_64/mkspecs/win32-g++ -isystem C:/Qt/6.11.1/mingw_64/include/QtWidgets -isystem C:/Qt/6.11.1/mingw_64/include/QtGui -DQT_QML_DEBUG -DQT_DECLARATIVE_DEBUG -g -std=gnu++17 -o CMakeFiles\\moi.dir\\moi_autogen\\3YJK5W5UP7\\qrc_resources.cpp.obj -c C:\\TUYETMATDSA\\build\\moi_autogen\\3YJK5W5UP7\\qrc_resources.cpp",
+  "file": "C:/TUYETMATDSA/build/moi_autogen/3YJK5W5UP7/qrc_resources.cpp",
+  "output": "C:/TUYETMATDSA/build/CMakeFiles/moi.dir/moi_autogen/3YJK5W5UP7/qrc_resources.cpp.obj"
+}
+]
