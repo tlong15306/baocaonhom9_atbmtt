@@ -80,14 +80,23 @@
                             <Label text="CẶP KHÓA" styleClass="result-section-title"/>
 
                             <!-- Private Key -->
-                            <VBox spacing="3">
-                                <Label text="Khóa bí mật x (Private Key):" styleClass="param-label private-key-label"/>
+                            <VBox spacing="5">
+                                <HBox alignment="CENTER_LEFT" spacing="10">
+                                    <Label text="Khóa bí mật x (Private Key):" styleClass="param-label private-key-label"/>
+                                    <Button fx:id="togglePrivateKeyBtn" text="Hiện" onAction="#handleTogglePrivateKey" styleClass="btn-secondary"/>
+                                    <Region HBox.hgrow="ALWAYS"/>
+                                    <Button text="Lưu Khóa Bí Mật" onAction="#handleSavePrivateKey" styleClass="btn-secondary"/>
+                                </HBox>
                                 <TextArea fx:id="privateKeyArea" editable="false" wrapText="true" prefRowCount="2" styleClass="param-area private-key-area"/>
                             </VBox>
 
                             <!-- Public Key -->
-                            <VBox spacing="3">
-                                <Label text="Khóa công khai y = g^x mod p (Public Key):" styleClass="param-label public-key-label"/>
+                            <VBox spacing="5">
+                                <HBox alignment="CENTER_LEFT" spacing="10">
+                                    <Label text="Khóa công khai y = g^x mod p (Public Key):" styleClass="param-label public-key-label"/>
+                                    <Region HBox.hgrow="ALWAYS"/>
+                                    <Button text="Lưu Khóa Công Khai" onAction="#handleSavePublicKey" styleClass="btn-secondary"/>
+                                </HBox>
                                 <TextArea fx:id="publicKeyArea" editable="false" wrapText="true" prefRowCount="3" styleClass="param-area public-key-area"/>
                             </VBox>
                         </VBox>
@@ -104,16 +113,61 @@
                         <Label text="KÝ SỐ THÔNG ĐIỆP" styleClass="section-title"/>
                         <Label text="Nhập thông điệp cần ký. Hệ thống sẽ băm bằng SHA-256 và ký bằng khóa bí mật DSA." styleClass="section-desc" wrapText="true"/>
 
+                        <!-- Private Key Loading VBox -->
+                        <VBox spacing="8" styleClass="result-box">
+                            <padding><Insets top="12" right="15" bottom="12" left="15"/></padding>
+                            <HBox spacing="10" alignment="CENTER_LEFT">
+                                <Label text="KHÓA DÙNG ĐỂ KÝ" styleClass="result-section-title"/>
+                                <Region HBox.hgrow="ALWAYS"/>
+                                <Button fx:id="toggleSignKeyDetailsBtn" text="Xem Chi Tiết" onAction="#handleToggleSignKeyDetails" styleClass="btn-secondary"/>
+                                <Button text="Tải Khóa Bí Mật (.txt/.key)" onAction="#handleLoadPrivateKey" styleClass="btn-secondary"/>
+                            </HBox>
+                            <Label fx:id="signKeyStatusLabel" text="Sử dụng khóa bí mật vừa sinh ở Tab 1 hoặc tải lên khóa mới" styleClass="param-label" style="-fx-text-fill: rgba(255, 255, 255, 0.65);"/>
+                            
+                            <!-- Detailed parameters -->
+                            <VBox fx:id="signKeyDetailsBox" spacing="10" visible="false" managed="false">
+                                <Separator styleClass="section-separator"/>
+                                <!-- Private Key x -->
+                                <VBox spacing="3">
+                                    <HBox alignment="CENTER_LEFT" spacing="10">
+                                        <Label text="Khóa bí mật x (Private Key):" styleClass="param-label private-key-label"/>
+                                        <Button fx:id="toggleSignPrivateKeyBtn" text="Hiện" onAction="#handleToggleSignPrivateKey" styleClass="btn-secondary"/>
+                                    </HBox>
+                                    <TextArea fx:id="signPrivateKeyArea" editable="false" wrapText="true" prefRowCount="2" styleClass="param-area private-key-area"/>
+                                </VBox>
+                                <!-- p -->
+                                <VBox spacing="3">
+                                    <Label text="Tham số p (số nguyên tố lớn):" styleClass="param-label"/>
+                                    <TextArea fx:id="signParamPArea" editable="false" wrapText="true" prefRowCount="2" styleClass="param-area"/>
+                                </VBox>
+                                <!-- q -->
+                                <VBox spacing="3">
+                                    <Label text="Tham số q (ước nguyên tố của p-1):" styleClass="param-label"/>
+                                    <TextArea fx:id="signParamQArea" editable="false" wrapText="true" prefRowCount="2" styleClass="param-area"/>
+                                </VBox>
+                                <!-- g -->
+                                <VBox spacing="3">
+                                    <Label text="Tham số g (phần tử sinh):" styleClass="param-label"/>
+                                    <TextArea fx:id="signParamGArea" editable="false" wrapText="true" prefRowCount="2" styleClass="param-area"/>
+                                </VBox>
+                            </VBox>
+                        </VBox>
+
                         <!-- Message Input -->
                         <VBox spacing="5">
-                            <Label text="Thông điệp (Message):" styleClass="field-label"/>
-                            <TextArea fx:id="messageArea" promptText="Nhập thông điệp cần ký tại đây..." wrapText="true" prefRowCount="5" styleClass="input-area"/>
+                            <HBox alignment="CENTER_LEFT" spacing="10">
+                                <Label text="Thông điệp (Message):" styleClass="field-label"/>
+                                <Region HBox.hgrow="ALWAYS"/>
+                                <Button text="Tải Thông Điệp Từ File" onAction="#handleLoadMessageFile" styleClass="btn-secondary"/>
+                            </HBox>
+                            <TextArea fx:id="messageArea" promptText="Nhập thông điệp cần ký tại đây hoặc tải từ file..." wrapText="true" prefRowCount="5" styleClass="input-area"/>
                         </VBox>
 
                         <!-- Action Buttons -->
                         <HBox spacing="10" alignment="CENTER_LEFT">
                             <Button fx:id="signButton" text="Ký Số" onAction="#handleSignAction" styleClass="btn-primary"/>
                             <Button text="Sao Chép" onAction="#handleCopySignature" styleClass="btn-secondary"/>
+                            <Button text="Lưu Chữ Ký" onAction="#handleSaveSignature" styleClass="btn-secondary"/>
                             <Button text="Xóa" onAction="#handleClearSign" styleClass="btn-danger"/>
                         </HBox>
 
@@ -127,8 +181,38 @@
 
                         <!-- Signature Result -->
                         <VBox spacing="5">
-                            <Label text="Chữ ký số (r, s) - Base64:" styleClass="field-label"/>
-                            <TextArea fx:id="signatureArea" editable="false" wrapText="true" prefRowCount="4" styleClass="signature-area"/>
+                            <HBox alignment="CENTER_LEFT" spacing="10">
+                                <Label text="Chữ ký số (Base64 DER):" styleClass="field-label"/>
+                                <Region HBox.hgrow="ALWAYS"/>
+                                <Button fx:id="toggleSigDetailsBtn" text="Tách Chữ Ký (r, s)" onAction="#handleToggleSigDetails" styleClass="btn-secondary"/>
+                            </HBox>
+                            <TextArea fx:id="signatureArea" editable="false" wrapText="true" prefRowCount="3" styleClass="signature-area"/>
+                            
+                            <!-- Detailed r and s -->
+                            <VBox fx:id="sigDetailsBox" spacing="10" visible="false" managed="false" styleClass="result-box">
+                                <padding><Insets top="12" right="15" bottom="12" left="15"/></padding>
+                                <Label text="THÀNH PHẦN CHỮ KÝ SỐ (r, s)" styleClass="result-section-title"/>
+                                
+                                <VBox spacing="3">
+                                    <Label text="Thành phần r (Hex):" styleClass="param-label"/>
+                                    <TextArea fx:id="sigRAreaHex" editable="false" wrapText="true" prefRowCount="2" styleClass="param-area"/>
+                                </VBox>
+                                <VBox spacing="3">
+                                    <Label text="Thành phần r (Decimal):" styleClass="param-label"/>
+                                    <TextArea fx:id="sigRAreaDec" editable="false" wrapText="true" prefRowCount="2" styleClass="param-area"/>
+                                </VBox>
+                                
+                                <Separator styleClass="section-separator"/>
+                                
+                                <VBox spacing="3">
+                                    <Label text="Thành phần s (Hex):" styleClass="param-label"/>
+                                    <TextArea fx:id="sigSAreaHex" editable="false" wrapText="true" prefRowCount="2" styleClass="param-area"/>
+                                </VBox>
+                                <VBox spacing="3">
+                                    <Label text="Thành phần s (Decimal):" styleClass="param-label"/>
+                                    <TextArea fx:id="sigSAreaDec" editable="false" wrapText="true" prefRowCount="2" styleClass="param-area"/>
+                                </VBox>
+                            </VBox>
                         </VBox>
                     </VBox>
                 </ScrollPane>
@@ -143,16 +227,61 @@
                         <Label text="XÁC MINH CHỮ KÝ SỐ" styleClass="section-title"/>
                         <Label text="Kiểm tra tính hợp lệ của chữ ký dựa trên khóa công khai (y) và thông điệp gốc." styleClass="section-desc" wrapText="true"/>
 
+                        <!-- Public Key Loading VBox -->
+                        <VBox spacing="8" styleClass="result-box">
+                            <padding><Insets top="12" right="15" bottom="12" left="15"/></padding>
+                            <HBox spacing="10" alignment="CENTER_LEFT">
+                                <Label text="KHÓA DÙNG ĐỂ XÁC MINH" styleClass="result-section-title"/>
+                                <Region HBox.hgrow="ALWAYS"/>
+                                <Button fx:id="toggleVerifyKeyDetailsBtn" text="Xem Chi Tiết" onAction="#handleToggleVerifyKeyDetails" styleClass="btn-secondary"/>
+                                <Button text="Tải Khóa Công Khai (.txt/.key)" onAction="#handleLoadPublicKey" styleClass="btn-secondary"/>
+                            </HBox>
+                            <Label fx:id="verifyKeyStatusLabel" text="Sử dụng khóa công khai vừa sinh ở Tab 1 hoặc tải lên khóa mới" styleClass="param-label" style="-fx-text-fill: rgba(255, 255, 255, 0.65);"/>
+                            
+                            <!-- Detailed parameters -->
+                            <VBox fx:id="verifyKeyDetailsBox" spacing="10" visible="false" managed="false">
+                                <Separator styleClass="section-separator"/>
+                                <!-- Public Key y -->
+                                <VBox spacing="3">
+                                    <Label text="Khóa công khai y (Public Key):" styleClass="param-label public-key-label"/>
+                                    <TextArea fx:id="verifyPublicKeyArea" editable="false" wrapText="true" prefRowCount="2" styleClass="param-area public-key-area"/>
+                                </VBox>
+                                <!-- p -->
+                                <VBox spacing="3">
+                                    <Label text="Tham số p (số nguyên tố lớn):" styleClass="param-label"/>
+                                    <TextArea fx:id="verifyParamPArea" editable="false" wrapText="true" prefRowCount="2" styleClass="param-area"/>
+                                </VBox>
+                                <!-- q -->
+                                <VBox spacing="3">
+                                    <Label text="Tham số q (ước nguyên tố của p-1):" styleClass="param-label"/>
+                                    <TextArea fx:id="verifyParamQArea" editable="false" wrapText="true" prefRowCount="2" styleClass="param-area"/>
+                                </VBox>
+                                <!-- g -->
+                                <VBox spacing="3">
+                                    <Label text="Tham số g (phần tử sinh):" styleClass="param-label"/>
+                                    <TextArea fx:id="verifyParamGArea" editable="false" wrapText="true" prefRowCount="2" styleClass="param-area"/>
+                                </VBox>
+                            </VBox>
+                        </VBox>
+
                         <!-- Message to Verify -->
                         <VBox spacing="5">
-                            <Label text="Thông điệp cần xác minh:" styleClass="field-label"/>
-                            <TextArea fx:id="verifyMessageArea" promptText="Nhập thông điệp cần xác minh..." wrapText="true" prefRowCount="4" styleClass="input-area"/>
+                            <HBox alignment="CENTER_LEFT" spacing="10">
+                                <Label text="Thông điệp cần xác minh:" styleClass="field-label"/>
+                                <Region HBox.hgrow="ALWAYS"/>
+                                <Button text="Tải Thông Điệp Từ File" onAction="#handleLoadVerifyMessageFile" styleClass="btn-secondary"/>
+                            </HBox>
+                            <TextArea fx:id="verifyMessageArea" promptText="Nhập thông điệp cần xác minh hoặc tải từ file..." wrapText="true" prefRowCount="4" styleClass="input-area"/>
                         </VBox>
 
                         <!-- Signature to Verify -->
                         <VBox spacing="5">
-                            <Label text="Chữ ký số (Base64):" styleClass="field-label"/>
-                            <TextArea fx:id="verifySignatureArea" promptText="Dán chữ ký số cần xác minh tại đây..." wrapText="true" prefRowCount="4" styleClass="input-area"/>
+                            <HBox alignment="CENTER_LEFT" spacing="10">
+                                <Label text="Chữ ký số (Base64):" styleClass="field-label"/>
+                                <Region HBox.hgrow="ALWAYS"/>
+                                <Button text="Tải Chữ Ký Từ File" onAction="#handleLoadVerifySignatureFile" styleClass="btn-secondary"/>
+                            </HBox>
+                            <TextArea fx:id="verifySignatureArea" promptText="Dán chữ ký số cần xác minh tại đây hoặc tải từ file..." wrapText="true" prefRowCount="4" styleClass="input-area"/>
                         </VBox>
 
                         <!-- Action Buttons -->
@@ -161,7 +290,7 @@
                             <Button text="Xóa" onAction="#handleClearVerify" styleClass="btn-danger"/>
                         </HBox>
 
-                        <Label fx:id="verifyStatusLabel" styleClass="status-label"/>
+                        <Label fx:id="verifyStatusLabel" styleClass="status-label" wrapText="true"/>
 
                         <!-- Verification Result -->
                         <VBox fx:id="verifyResultBox" spacing="10" alignment="CENTER" styleClass="verify-result-box">
@@ -227,7 +356,7 @@
                             <padding><Insets top="15" right="15" bottom="15" left="15"/></padding>
                             <Label text="Thông tin nhóm" styleClass="guide-card-title"/>
                             <Label wrapText="true" styleClass="guide-text"
-                                   text="Nhóm 9 — Môn An Toàn Bảo Mật Thông Tin&#10;Thành viên: Long &amp; Vi&#10;Năm học: 2025"/>
+                                   text="Nhóm 9 — Môn An Toàn Bảo Mật Thông Tin&#10;Thành viên tham gia: Long &amp; Vi&#10;Năm học: 2025-2026"/>
                         </VBox>
 
                     </VBox>

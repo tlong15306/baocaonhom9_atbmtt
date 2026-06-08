@@ -129,8 +129,8 @@ public class DSAModel {
      * @throws Exception nếu có lỗi trong quá trình xác minh
      */
     public boolean verifySignature(String message, String signatureBase64) throws Exception {
-        if (keyPair == null) {
-            throw new IllegalStateException("Chưa có khóa công khai! Vui lòng sinh khóa trước.");
+        if (keyPair == null || keyPair.getPublic() == null) {
+            throw new IllegalStateException("Chưa có khóa công khai! Vui lòng sinh hoặc tải khóa trước.");
         }
         
         byte[] sigBytes = Base64.getDecoder().decode(signatureBase64);
@@ -140,6 +140,43 @@ public class DSAModel {
         dsa.update(message.getBytes(StandardCharsets.UTF_8));
         
         return dsa.verify(sigBytes);
+    }
+
+    /**
+     * Thiết lập khóa bí mật và các tham số hệ thống từ các giá trị BigInteger
+     */
+    public void setPrivateKeyAndParams(BigInteger p, BigInteger q, BigInteger g, BigInteger x) throws Exception {
+        this.p = p;
+        this.q = q;
+        this.g = g;
+        this.x = x;
+        this.y = g.modPow(x, p);
+        
+        KeyFactory kf = KeyFactory.getInstance("DSA");
+        java.security.spec.DSAPrivateKeySpec privSpec = new java.security.spec.DSAPrivateKeySpec(x, p, q, g);
+        java.security.spec.DSAPublicKeySpec pubSpec = new java.security.spec.DSAPublicKeySpec(this.y, p, q, g);
+        
+        PrivateKey privKey = kf.generatePrivate(privSpec);
+        PublicKey pubKey = kf.generatePublic(pubSpec);
+        
+        this.keyPair = new KeyPair(pubKey, privKey);
+    }
+
+    /**
+     * Thiết lập khóa công khai và các tham số hệ thống từ các giá trị BigInteger
+     */
+    public void setPublicKeyAndParams(BigInteger p, BigInteger q, BigInteger g, BigInteger y) throws Exception {
+        this.p = p;
+        this.q = q;
+        this.g = g;
+        this.y = y;
+        this.x = null;
+        
+        KeyFactory kf = KeyFactory.getInstance("DSA");
+        java.security.spec.DSAPublicKeySpec pubSpec = new java.security.spec.DSAPublicKeySpec(y, p, q, g);
+        PublicKey pubKey = kf.generatePublic(pubSpec);
+        
+        this.keyPair = new KeyPair(pubKey, null);
     }
 
     /**
