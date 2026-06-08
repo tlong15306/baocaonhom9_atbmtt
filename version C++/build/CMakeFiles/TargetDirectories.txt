@@ -1,0 +1,5 @@
+C:/TUYETMATDSA/build/CMakeFiles/moi.dir
+C:/TUYETMATDSA/build/CMakeFiles/edit_cache.dir
+C:/TUYETMATDSA/build/CMakeFiles/rebuild_cache.dir
+C:/TUYETMATDSA/build/CMakeFiles/moi_autogen_timestamp_deps.dir
+C:/TUYETMATDSA/build/CMakeFiles/moi_autogen.dir
