@@ -11,26 +11,25 @@
             fx:controller="com.nhom9.atbmtt.DSAController"
             styleClass="root-pane">
 
-    <!-- HEADER -->
+    <!-- HEADER — Left-aligned (Anti-Center Bias) -->
     <top>
-        <VBox styleClass="header-box" alignment="CENTER" spacing="5">
-            <padding><Insets top="20" right="20" bottom="15" left="20"/></padding>
+        <VBox styleClass="header-box" alignment="CENTER_LEFT" spacing="3">
+            <padding><Insets top="18" right="28" bottom="14" left="28"/></padding>
             <Label text="CHỮ KÝ SỐ DSA" styleClass="app-title"/>
-            <Label text="Digital Signature Algorithm - Nhóm 9 ATBMTT" styleClass="app-subtitle"/>
-            <Separator styleClass="header-separator"/>
+            <Label text="Digital Signature Algorithm  ·  Nhóm 9 ATBMTT" styleClass="app-subtitle"/>
         </VBox>
     </top>
 
     <!-- MAIN CONTENT - TABS -->
     <center>
         <TabPane fx:id="mainTabPane" tabClosingPolicy="UNAVAILABLE" styleClass="main-tab-pane">
-            <padding><Insets top="5" right="15" bottom="5" left="15"/></padding>
+            <padding><Insets top="4" right="20" bottom="4" left="20"/></padding>
 
             <!-- ==================== TAB 1: SINH KHÓA ==================== -->
             <Tab text="1. Sinh Khóa" styleClass="custom-tab">
                 <ScrollPane fitToWidth="true" styleClass="tab-scroll">
                     <VBox spacing="15" styleClass="tab-content">
-                        <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
+                        <padding><Insets top="24" right="28" bottom="24" left="28"/></padding>
 
                         <Label text="SINH CẶP KHÓA DSA" styleClass="section-title"/>
                         <Label text="Chọn kích thước khóa và nhấn Sinh Khóa để tạo bộ tham số (p, q, g) và cặp khóa (x, y)" styleClass="section-desc" wrapText="true"/>
@@ -87,7 +86,7 @@
                                     <Region HBox.hgrow="ALWAYS"/>
                                     <Button text="Lưu Khóa Bí Mật" onAction="#handleSavePrivateKey" styleClass="btn-secondary"/>
                                 </HBox>
-                                <TextArea fx:id="privateKeyArea" editable="false" wrapText="true" prefRowCount="2" styleClass="param-area private-key-area"/>
+                                <TextArea fx:id="privateKeyArea" editable="false" wrapText="true" prefRowCount="2" styleClass="private-key-area"/>
                             </VBox>
 
                             <!-- Public Key -->
@@ -97,7 +96,7 @@
                                     <Region HBox.hgrow="ALWAYS"/>
                                     <Button text="Lưu Khóa Công Khai" onAction="#handleSavePublicKey" styleClass="btn-secondary"/>
                                 </HBox>
-                                <TextArea fx:id="publicKeyArea" editable="false" wrapText="true" prefRowCount="3" styleClass="param-area public-key-area"/>
+                                <TextArea fx:id="publicKeyArea" editable="false" wrapText="true" prefRowCount="3" styleClass="public-key-area"/>
                             </VBox>
                         </VBox>
                     </VBox>
@@ -108,7 +107,7 @@
             <Tab text="2. Ký Số" styleClass="custom-tab">
                 <ScrollPane fitToWidth="true" styleClass="tab-scroll">
                     <VBox spacing="15" styleClass="tab-content">
-                        <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
+                        <padding><Insets top="24" right="28" bottom="24" left="28"/></padding>
 
                         <Label text="KÝ SỐ THÔNG ĐIỆP" styleClass="section-title"/>
                         <Label text="Nhập thông điệp cần ký. Hệ thống sẽ băm bằng SHA-256 và ký bằng khóa bí mật DSA." styleClass="section-desc" wrapText="true"/>
@@ -133,7 +132,7 @@
                                         <Label text="Khóa bí mật x (Private Key):" styleClass="param-label private-key-label"/>
                                         <Button fx:id="toggleSignPrivateKeyBtn" text="Hiện" onAction="#handleToggleSignPrivateKey" styleClass="btn-secondary"/>
                                     </HBox>
-                                    <TextArea fx:id="signPrivateKeyArea" editable="false" wrapText="true" prefRowCount="2" styleClass="param-area private-key-area"/>
+                                    <TextArea fx:id="signPrivateKeyArea" editable="false" wrapText="true" prefRowCount="2" styleClass="private-key-area"/>
                                 </VBox>
                                 <!-- p -->
                                 <VBox spacing="3">
@@ -158,6 +157,7 @@
                             <HBox alignment="CENTER_LEFT" spacing="10">
                                 <Label text="Thông điệp (Message):" styleClass="field-label"/>
                                 <Region HBox.hgrow="ALWAYS"/>
+                                <Button text="Sao Chép" onAction="#handleCopyMessage" styleClass="btn-secondary"/>
                                 <Button text="Tải Thông Điệp Từ File" onAction="#handleLoadMessageFile" styleClass="btn-secondary"/>
                             </HBox>
                             <TextArea fx:id="messageArea" promptText="Nhập thông điệp cần ký tại đây hoặc tải từ file..." wrapText="true" prefRowCount="5" styleClass="input-area"/>
@@ -166,7 +166,7 @@
                         <!-- Action Buttons -->
                         <HBox spacing="10" alignment="CENTER_LEFT">
                             <Button fx:id="signButton" text="Ký Số" onAction="#handleSignAction" styleClass="btn-primary"/>
-                            <Button text="Sao Chép" onAction="#handleCopySignature" styleClass="btn-secondary"/>
+                            <Button text="Sao Chép Chữ Ký" onAction="#handleCopySignature" styleClass="btn-secondary"/>
                             <Button text="Lưu Chữ Ký" onAction="#handleSaveSignature" styleClass="btn-secondary"/>
                             <Button text="Xóa" onAction="#handleClearSign" styleClass="btn-danger"/>
                         </HBox>
@@ -222,7 +222,7 @@
             <Tab text="3. Xác Minh" styleClass="custom-tab">
                 <ScrollPane fitToWidth="true" styleClass="tab-scroll">
                     <VBox spacing="15" styleClass="tab-content">
-                        <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
+                        <padding><Insets top="24" right="28" bottom="24" left="28"/></padding>
 
                         <Label text="XÁC MINH CHỮ KÝ SỐ" styleClass="section-title"/>
                         <Label text="Kiểm tra tính hợp lệ của chữ ký dựa trên khóa công khai (y) và thông điệp gốc." styleClass="section-desc" wrapText="true"/>
@@ -244,7 +244,7 @@
                                 <!-- Public Key y -->
                                 <VBox spacing="3">
                                     <Label text="Khóa công khai y (Public Key):" styleClass="param-label public-key-label"/>
-                                    <TextArea fx:id="verifyPublicKeyArea" editable="false" wrapText="true" prefRowCount="2" styleClass="param-area public-key-area"/>
+                                    <TextArea fx:id="verifyPublicKeyArea" editable="false" wrapText="true" prefRowCount="2" styleClass="public-key-area"/>
                                 </VBox>
                                 <!-- p -->
                                 <VBox spacing="3">
@@ -269,6 +269,7 @@
                             <HBox alignment="CENTER_LEFT" spacing="10">
                                 <Label text="Thông điệp cần xác minh:" styleClass="field-label"/>
                                 <Region HBox.hgrow="ALWAYS"/>
+                                <Button text="Sao Chép" onAction="#handleCopyVerifyMessage" styleClass="btn-secondary"/>
                                 <Button text="Tải Thông Điệp Từ File" onAction="#handleLoadVerifyMessageFile" styleClass="btn-secondary"/>
                             </HBox>
                             <TextArea fx:id="verifyMessageArea" promptText="Nhập thông điệp cần xác minh hoặc tải từ file..." wrapText="true" prefRowCount="4" styleClass="input-area"/>
@@ -306,57 +307,57 @@
             <Tab text="4. Hướng Dẫn" styleClass="custom-tab">
                 <ScrollPane fitToWidth="true" styleClass="tab-scroll">
                     <VBox spacing="18" styleClass="tab-content">
-                        <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
+                        <padding><Insets top="24" right="28" bottom="24" left="28"/></padding>
 
-                        <Label text="HƯỚNG DẪN SỬ DỤNG" styleClass="section-title"/>
-                        <Label text="Ứng dụng minh họa thuật toán chữ ký số DSA (Digital Signature Algorithm)" styleClass="section-desc" wrapText="true"/>
+                        <Label text="HƯỚNG DẪN SỬ DỤNG CHI TIẾT" styleClass="section-title"/>
+                        <Label text="Cách sử dụng trọn vẹn các tính năng sinh khóa, ký số, xác minh chữ ký DSA" styleClass="section-desc" wrapText="true"/>
 
                         <!-- Tổng quan -->
                         <VBox spacing="8" styleClass="guide-card">
                             <padding><Insets top="15" right="15" bottom="15" left="15"/></padding>
                             <Label text="DSA là gì?" styleClass="guide-card-title"/>
                             <Label wrapText="true" styleClass="guide-text"
-                                   text="DSA (Digital Signature Algorithm) là thuật toán chữ ký số được NIST công bố năm 1991. DSA dùng để xác thực danh tính người gửi và đảm bảo tính toàn vẹn của thông điệp. Chữ ký số hoạt động dựa trên cặp khóa bất đối xứng: khóa bí mật (dùng để ký) và khóa công khai (dùng để xác minh)."/>
+                                   text="DSA (Digital Signature Algorithm) là thuật toán chữ ký số chuẩn hóa quốc gia. Thuật toán này dùng cặp khóa bất đối xứng: khóa bí mật (dùng để ký) và khóa công khai (dùng để xác minh) nhằm đảm bảo tính toàn vẹn của dữ liệu và xác thực người gửi."/>
                         </VBox>
 
                         <!-- Bước 1 -->
                         <VBox spacing="8" styleClass="guide-card">
                             <padding><Insets top="15" right="15" bottom="15" left="15"/></padding>
-                            <Label text="Bước 1 — Sinh Khóa" styleClass="guide-card-title"/>
+                            <Label text="Bước 1 — Sinh &amp; Lưu Trữ Khóa" styleClass="guide-card-title"/>
                             <Label wrapText="true" styleClass="guide-text"
-                                   text="Chuyển sang tab &quot;1. Sinh Khóa&quot;, chọn kích thước khóa (1024 hoặc 2048 bit), sau đó nhấn nút Sinh Khóa. Hệ thống sẽ tạo bộ tham số (p, q, g) và cặp khóa (x — bí mật, y — công khai). Khóa 2048 bit bảo mật cao hơn nhưng sinh lâu hơn."/>
+                                   text="• Chọn kích thước (1024 hoặc 2048 bit) và nhấn &quot;Sinh Khóa&quot;. Khóa bí mật (x) mặc định sẽ được ẩn bằng dấu chấm tròn để bảo mật. Nhấn nút &quot;Hiện&quot;/&quot;Ẩn&quot; bên cạnh để xem giá trị Hex của khóa bí mật.&#10;• Nhấn nút &quot;Lưu Khóa Bí Mật&quot; hoặc &quot;Lưu Khóa Công Khai&quot; để lưu khóa thành tệp tin văn bản (.txt) phục vụ cho việc ký và xác minh sau này."/>
                         </VBox>
 
                         <!-- Bước 2 -->
                         <VBox spacing="8" styleClass="guide-card">
                             <padding><Insets top="15" right="15" bottom="15" left="15"/></padding>
-                            <Label text="Bước 2 — Ký Số" styleClass="guide-card-title"/>
+                            <Label text="Bước 2 — Ký Số Thông Điệp" styleClass="guide-card-title"/>
                             <Label wrapText="true" styleClass="guide-text"
-                                   text="Chuyển sang tab &quot;2. Ký Số&quot;, nhập thông điệp bất kỳ vào ô văn bản, rồi nhấn Ký Số. Thông điệp được băm bằng SHA-256, sau đó ký bằng khóa bí mật x để tạo ra chữ ký số (r, s) dưới dạng Base64. Bạn có thể nhấn Sao Chép để lưu chữ ký."/>
+                                   text="• Nạp khóa: Nhấn &quot;Tải Khóa Bí Mật&quot; để tải file khóa đã lưu từ trước (hoặc dùng luôn khóa vừa sinh ở Tab 1). Nhấn &quot;Xem Chi Tiết&quot; để đối chiếu tham số p, q, g, x.&#10;• Soạn thông điệp: Nhập chữ trực tiếp hoặc nhấn &quot;Tải Thông Điệp Từ File&quot;.&#10;• Nhấn &quot;Ký Số&quot; để sinh chữ ký Base64 DER.&#10;• Nhấn &quot;Tách Chữ Ký (r, s)&quot; để bóc tách thành phần toán học r và s dưới dạng Hex và Thập phân để kiểm tra.&#10;• Nhấn &quot;Lưu Chữ Ký&quot; để lưu ra file (.sig) hoặc &quot;Sao Chép&quot; vào Clipboard."/>
                         </VBox>
 
                         <!-- Bước 3 -->
                         <VBox spacing="8" styleClass="guide-card">
                             <padding><Insets top="15" right="15" bottom="15" left="15"/></padding>
-                            <Label text="Bước 3 — Xác Minh" styleClass="guide-card-title"/>
+                            <Label text="Bước 3 — Xác Minh Chữ Ký" styleClass="guide-card-title"/>
                             <Label wrapText="true" styleClass="guide-text"
-                                   text="Chuyển sang tab &quot;3. Xác Minh&quot;, nhập lại thông điệp gốc và dán chữ ký số Base64 vào ô tương ứng, rồi nhấn Xác Minh. Hệ thống sẽ dùng khóa công khai y để kiểm tra. Nếu thông điệp chưa bị thay đổi và chữ ký đúng, kết quả sẽ là Hợp Lệ."/>
+                                   text="• Nạp khóa: Nhấn &quot;Tải Khóa Công Khai&quot; để load file khóa công khai cần kiểm tra. Nhấn &quot;Xem Chi Tiết&quot; để kiểm tra tham số p, q, g, y.&#10;• Nạp dữ liệu: Nhấn &quot;Tải Thông Điệp Từ File&quot; và &quot;Tải Chữ Ký Từ File&quot; (hoặc tự dán nội dung chữ ký Base64 vào ô).&#10;• Nhấn &quot;Xác Minh&quot; để đối chiếu phương trình toán học. Hệ thống sẽ bắt lỗi chi tiết nếu sai định dạng Base64, sai cấu trúc DER hoặc sai lệch dữ liệu."/>
                         </VBox>
 
                         <!-- Lưu ý -->
                         <VBox spacing="8" styleClass="guide-card guide-card-note">
                             <padding><Insets top="15" right="15" bottom="15" left="15"/></padding>
-                            <Label text="Lưu ý" styleClass="guide-card-title guide-note-title"/>
+                            <Label text="Lưu ý quan trọng" styleClass="guide-card-title guide-note-title"/>
                             <Label wrapText="true" styleClass="guide-text"
-                                   text="• Bạn phải sinh khóa trước khi thực hiện ký số hoặc xác minh.&#10;• Chữ ký chỉ hợp lệ với đúng thông điệp gốc — thay đổi dù một ký tự cũng khiến xác minh thất bại.&#10;• Mỗi lần sinh khóa mới, chữ ký cũ sẽ không còn xác minh được.&#10;• Ứng dụng này chỉ dùng để minh họa, không dùng cho mục đích bảo mật thực tế."/>
+                                   text="• Chữ ký số chỉ hợp lệ với đúng nội dung thông điệp gốc ban đầu. Thay đổi dù chỉ một ký tự hoặc khoảng trắng (hoặc ký tự xuống dòng) cũng sẽ làm kết quả xác minh báo lỗi &quot;CHỮ KÝ KHÔNG HỢP LỆ&quot;.&#10;• Tệp khóa bí mật và khóa công khai lưu ra dạng file văn bản chứa cả thông tin Hex tường minh lẫn định dạng chuỗi Base64 chuẩn hóa để dễ kiểm tra và tích hợp."/>
                         </VBox>
 
                         <!-- Thông tin nhóm -->
                         <VBox spacing="5" styleClass="guide-card">
                             <padding><Insets top="15" right="15" bottom="15" left="15"/></padding>
-                            <Label text="Thông tin nhóm" styleClass="guide-card-title"/>
+                            <Label text="Thông tin dự án" styleClass="guide-card-title"/>
                             <Label wrapText="true" styleClass="guide-text"
-                                   text="Nhóm 9 — Môn An Toàn Bảo Mật Thông Tin&#10;Thành viên tham gia: Long &amp; Vi&#10;Năm học: 2025-2026"/>
+                                   text="Nhóm 9 — Môn An Toàn Bảo Mật Thông Tin&#10;Thành viên tham gia: Long &amp; Vi&#10;Phiên bản cải tiến: Khóa học 2025-2026"/>
                         </VBox>
 
                     </VBox>
@@ -368,7 +369,7 @@
     <!-- FOOTER -->
     <bottom>
         <HBox styleClass="footer-box" alignment="CENTER">
-            <padding><Insets top="10" right="20" bottom="10" left="20"/></padding>
+            <padding><Insets top="8" right="28" bottom="8" left="28"/></padding>
             <Label fx:id="footerLabel" styleClass="footer-label"/>
         </HBox>
     </bottom>

@@ -133,7 +133,7 @@ public class DSAController implements Initializable {
         // Hiển thị progress
         keyProgress.setVisible(true);
         keyStatusLabel.setText("Đang sinh khóa DSA " + keySize + " bit...");
-        keyStatusLabel.setStyle("-fx-text-fill: #f0ad4e;");
+        keyStatusLabel.setStyle("-fx-text-fill: #f59e0b;");
         keyResultBox.setVisible(false);
         keyResultBox.setManaged(false);
         
@@ -149,7 +149,7 @@ public class DSAController implements Initializable {
         task.setOnSucceeded(e -> {
             keyProgress.setVisible(false);
             keyStatusLabel.setText("Sinh khóa thành công! Kích thước: " + keySize + " bit");
-            keyStatusLabel.setStyle("-fx-text-fill: #5cb85c;");
+            keyStatusLabel.setStyle("-fx-text-fill: #2dd4a0;");
             
             // Hiển thị các tham số
             BigInteger p = dsaModel.getP();
@@ -176,29 +176,39 @@ public class DSAController implements Initializable {
             
             if (signKeyStatusLabel != null) {
                 signKeyStatusLabel.setText("Đang sử dụng khóa vừa sinh ở Tab 1 (" + keySize + " bit)");
-                signKeyStatusLabel.setStyle("-fx-text-fill: #7bed9f;");
+                signKeyStatusLabel.setStyle("-fx-text-fill: #34d399;");
             }
             if (verifyKeyStatusLabel != null) {
                 verifyKeyStatusLabel.setText("Đang sử dụng khóa vừa sinh ở Tab 1 (" + keySize + " bit)");
-                verifyKeyStatusLabel.setStyle("-fx-text-fill: #7bed9f;");
+                verifyKeyStatusLabel.setStyle("-fx-text-fill: #34d399;");
             }
             
             updateKeyDetailsUI();
             
-            // Hiện kết quả với animation
+            // Hien ket qua voi animation slide-in premium
             keyResultBox.setVisible(true);
             keyResultBox.setManaged(true);
             keyResultBox.setOpacity(0);
-            FadeTransition fade = new FadeTransition(Duration.millis(500), keyResultBox);
+            keyResultBox.setTranslateY(18);
+            
+            FadeTransition fade = new FadeTransition(Duration.millis(450), keyResultBox);
             fade.setFromValue(0);
             fade.setToValue(1);
-            fade.play();
+            fade.setInterpolator(javafx.animation.Interpolator.EASE_OUT);
+            
+            TranslateTransition slide = new TranslateTransition(Duration.millis(450), keyResultBox);
+            slide.setFromY(18);
+            slide.setToY(0);
+            slide.setInterpolator(javafx.animation.Interpolator.SPLINE(0.16, 1, 0.3, 1));
+            
+            ParallelTransition parallel = new ParallelTransition(fade, slide);
+            parallel.play();
         });
         
         task.setOnFailed(e -> {
             keyProgress.setVisible(false);
             keyStatusLabel.setText("Lỗi sinh khóa: " + task.getException().getMessage());
-            keyStatusLabel.setStyle("-fx-text-fill: #d9534f;");
+            keyStatusLabel.setStyle("-fx-text-fill: #f43f5e;");
         });
         
         new Thread(task).start();
@@ -215,13 +225,13 @@ public class DSAController implements Initializable {
             
             if (message == null || message.trim().isEmpty()) {
                 signStatusLabel.setText("Vui lòng nhập thông điệp cần ký!");
-                signStatusLabel.setStyle("-fx-text-fill: #f0ad4e;");
+                signStatusLabel.setStyle("-fx-text-fill: #f59e0b;");
                 return;
             }
             
             if (!dsaModel.hasKeyPair()) {
                 signStatusLabel.setText("Chưa có cặp khóa! Vui lòng sinh khóa trước (Tab 1).");
-                signStatusLabel.setStyle("-fx-text-fill: #f0ad4e;");
+                signStatusLabel.setStyle("-fx-text-fill: #f59e0b;");
                 
                 // Chuyển sang tab sinh khóa
                 mainTabPane.getSelectionModel().select(0);
@@ -236,7 +246,7 @@ public class DSAController implements Initializable {
             hashArea.setText(dsaModel.getLastHashHex().toUpperCase());
             
             signStatusLabel.setText("Thông điệp đã được ký thành công bằng SHA256withDSA!");
-            signStatusLabel.setStyle("-fx-text-fill: #5cb85c;");
+            signStatusLabel.setStyle("-fx-text-fill: #2dd4a0;");
             
             // Tự động điền vào tab Xác minh
             verifyMessageArea.setText(message);
@@ -247,16 +257,16 @@ public class DSAController implements Initializable {
                 updateSigDetailsUI();
             }
             
-            // Animation nhấp nháy kết quả
-            FadeTransition fade = new FadeTransition(Duration.millis(300), signatureArea);
-            fade.setFromValue(0.3);
+            // Animation hieu ung ket qua premium
+            FadeTransition fade = new FadeTransition(Duration.millis(350), signatureArea);
+            fade.setFromValue(0.2);
             fade.setToValue(1);
-            fade.setCycleCount(2);
+            fade.setInterpolator(javafx.animation.Interpolator.EASE_OUT);
             fade.play();
             
         } catch (Exception e) {
             signStatusLabel.setText("Lỗi ký số: " + e.getMessage());
-            signStatusLabel.setStyle("-fx-text-fill: #d9534f;");
+            signStatusLabel.setStyle("-fx-text-fill: #f43f5e;");
         }
     }
 
@@ -276,21 +286,21 @@ public class DSAController implements Initializable {
         // 1. Kiểm tra thông điệp trống
         if (message == null || message.trim().isEmpty()) {
             verifyStatusLabel.setText("Lỗi: Vui lòng nhập thông điệp cần xác minh!");
-            verifyStatusLabel.setStyle("-fx-text-fill: #d9534f;");
+            verifyStatusLabel.setStyle("-fx-text-fill: #f43f5e;");
             return;
         }
         
         // 2. Kiểm tra chữ ký trống
         if (signatureInput == null || signatureInput.trim().isEmpty()) {
             verifyStatusLabel.setText("Lỗi: Vui lòng nhập chữ ký số cần xác minh!");
-            verifyStatusLabel.setStyle("-fx-text-fill: #d9534f;");
+            verifyStatusLabel.setStyle("-fx-text-fill: #f43f5e;");
             return;
         }
         
         // 3. Kiểm tra sự tồn tại của khóa công khai
         if (!dsaModel.hasKeyPair() || dsaModel.getKeyPair().getPublic() == null) {
             verifyStatusLabel.setText("Lỗi: Chưa có khóa công khai! Vui lòng sinh khóa (Tab 1) hoặc tải khóa công khai (Tab 3).");
-            verifyStatusLabel.setStyle("-fx-text-fill: #d9534f;");
+            verifyStatusLabel.setStyle("-fx-text-fill: #f43f5e;");
             return;
         }
 
@@ -313,10 +323,10 @@ public class DSAController implements Initializable {
                 verifyResultBox.setVisible(true);
                 verifyResultBox.setManaged(true);
                 verifyResultLabel.setText("LỖI ĐỊNH DẠNG");
-                verifyResultLabel.setStyle("-fx-text-fill: #f0ad4e; -fx-font-weight: bold; -fx-font-size: 16px;");
-                verifyIndicator.setFill(Color.web("#f0ad4e"));
+                verifyResultLabel.setStyle("-fx-text-fill: #f59e0b; -fx-font-weight: bold; -fx-font-size: 16px;");
+                verifyIndicator.setStyle("-fx-fill: #f59e0b;");
                 verifyStatusLabel.setText("Lỗi: Chữ ký không đúng định dạng Base64! Vui lòng kiểm tra lại chuỗi chữ ký.");
-                verifyStatusLabel.setStyle("-fx-text-fill: #f0ad4e;");
+                verifyStatusLabel.setStyle("-fx-text-fill: #f59e0b;");
                 return;
             }
 
@@ -327,10 +337,10 @@ public class DSAController implements Initializable {
                 verifyResultBox.setVisible(true);
                 verifyResultBox.setManaged(true);
                 verifyResultLabel.setText("SAI CẤU TRÚC");
-                verifyResultLabel.setStyle("-fx-text-fill: #f0ad4e; -fx-font-weight: bold; -fx-font-size: 16px;");
-                verifyIndicator.setFill(Color.web("#f0ad4e"));
+                verifyResultLabel.setStyle("-fx-text-fill: #f59e0b; -fx-font-weight: bold; -fx-font-size: 16px;");
+                verifyIndicator.setStyle("-fx-fill: #f59e0b;");
                 verifyStatusLabel.setText("Lỗi: Chữ ký đúng định dạng Base64 nhưng sai cấu trúc DSA (DER SEQUENCE {r, s})!");
-                verifyStatusLabel.setStyle("-fx-text-fill: #f0ad4e;");
+                verifyStatusLabel.setStyle("-fx-text-fill: #f59e0b;");
                 return;
             }
 
@@ -342,54 +352,75 @@ public class DSAController implements Initializable {
             
             if (isValid) {
                 verifyResultLabel.setText("CHỮ KÝ HỢP LỆ");
-                verifyResultLabel.setStyle("-fx-text-fill: #5cb85c; -fx-font-weight: bold; -fx-font-size: 16px;");
-                verifyIndicator.setFill(Color.web("#5cb85c"));
+                verifyResultLabel.setStyle("-fx-text-fill: #2dd4a0; -fx-font-weight: bold; -fx-font-size: 16px;");
+                verifyIndicator.setStyle("-fx-fill: #2dd4a0;");
                 verifyStatusLabel.setText("Xác minh thành công! Thông điệp nguyên vẹn và khớp với khóa công khai.");
-                verifyStatusLabel.setStyle("-fx-text-fill: #5cb85c;");
+                verifyStatusLabel.setStyle("-fx-text-fill: #2dd4a0;");
             } else {
                 verifyResultLabel.setText("CHỮ KÝ KHÔNG HỢP LỆ");
-                verifyResultLabel.setStyle("-fx-text-fill: #d9534f; -fx-font-weight: bold; -fx-font-size: 16px;");
-                verifyIndicator.setFill(Color.web("#d9534f"));
+                verifyResultLabel.setStyle("-fx-text-fill: #f43f5e; -fx-font-weight: bold; -fx-font-size: 16px;");
+                verifyIndicator.setStyle("-fx-fill: #f43f5e;");
                 verifyStatusLabel.setText(
                     "Cảnh báo: Xác minh thất bại! Có 2 khả năng xảy ra:\n" +
                     "• 1. Tính toàn vẹn bị vi phạm: Nội dung thông điệp đã bị sửa đổi (dù chỉ một ký tự hoặc khoảng trắng) so với lúc ký.\n" +
                     "• 2. Sai lệch nguồn gốc: Chữ ký này được tạo ra từ một khóa bí mật khác, không khớp với khóa công khai đang dùng để đối chiếu."
                 );
-                verifyStatusLabel.setStyle("-fx-text-fill: #d9534f; -fx-font-size: 12px;");
+                verifyStatusLabel.setStyle("-fx-text-fill: #f43f5e; -fx-font-size: 12px;");
             }
             
-            // Hiệu ứng Animation hiển thị kết quả
-            ScaleTransition scale = new ScaleTransition(Duration.millis(300), verifyResultBox);
-            scale.setFromX(0.8);
-            scale.setFromY(0.8);
-            scale.setToX(1);
-            scale.setToY(1);
-            scale.play();
+            // Hieu ung overshoot spring-like (JavaFX SPLINE requires [0,1])
+            verifyResultBox.setOpacity(0);
+            verifyResultBox.setScaleX(0.85);
+            verifyResultBox.setScaleY(0.85);
+            
+            FadeTransition fadeIn = new FadeTransition(Duration.millis(300), verifyResultBox);
+            fadeIn.setFromValue(0);
+            fadeIn.setToValue(1);
+            fadeIn.setInterpolator(javafx.animation.Interpolator.EASE_OUT);
+            
+            // Overshoot: scale 0.85 -> 1.06 -> 1.0
+            ScaleTransition scaleUp = new ScaleTransition(Duration.millis(350), verifyResultBox);
+            scaleUp.setFromX(0.85);
+            scaleUp.setFromY(0.85);
+            scaleUp.setToX(1.06);
+            scaleUp.setToY(1.06);
+            scaleUp.setInterpolator(javafx.animation.Interpolator.EASE_OUT);
+            
+            ScaleTransition scaleSettle = new ScaleTransition(Duration.millis(200), verifyResultBox);
+            scaleSettle.setFromX(1.06);
+            scaleSettle.setFromY(1.06);
+            scaleSettle.setToX(1.0);
+            scaleSettle.setToY(1.0);
+            scaleSettle.setInterpolator(javafx.animation.Interpolator.EASE_BOTH);
+            
+            SequentialTransition bounce = new SequentialTransition(scaleUp, scaleSettle);
+            ParallelTransition bounceIn = new ParallelTransition(fadeIn, bounce);
+            bounceIn.play();
             
         } catch (java.security.InvalidKeyException e) {
             verifyResultBox.setVisible(true);
             verifyResultBox.setManaged(true);
             verifyResultLabel.setText("LỖI KHÓA");
-            verifyResultLabel.setStyle("-fx-text-fill: #d9534f; -fx-font-weight: bold; -fx-font-size: 16px;");
-            verifyIndicator.setFill(Color.web("#d9534f"));
+            verifyResultLabel.setStyle("-fx-text-fill: #f43f5e; -fx-font-weight: bold; -fx-font-size: 16px;");
+            verifyIndicator.setStyle("-fx-fill: #f43f5e;");
             verifyStatusLabel.setText("Lỗi: Khóa công khai hiện tại không hợp lệ cho thuật toán DSA!");
-            verifyStatusLabel.setStyle("-fx-text-fill: #d9534f;");
+            verifyStatusLabel.setStyle("-fx-text-fill: #f43f5e;");
         } catch (java.security.SignatureException e) {
             verifyResultBox.setVisible(true);
             verifyResultBox.setManaged(true);
             verifyResultLabel.setText("LỖI XÁC MINH");
-            verifyResultLabel.setStyle("-fx-text-fill: #d9534f; -fx-font-weight: bold; -fx-font-size: 16px;");
-            verifyIndicator.setFill(Color.web("#d9534f"));
+            verifyResultLabel.setStyle("-fx-text-fill: #f43f5e; -fx-font-weight: bold; -fx-font-size: 16px;");
+            verifyIndicator.setStyle("-fx-fill: #f43f5e;");
             verifyStatusLabel.setText("Lỗi xử lý chữ ký: " + e.getMessage());
-            verifyStatusLabel.setStyle("-fx-text-fill: #d9534f;");
+            verifyStatusLabel.setStyle("-fx-text-fill: #f43f5e;");
         } catch (Exception e) {
             verifyResultBox.setVisible(true);
             verifyResultBox.setManaged(true);
             verifyResultLabel.setText("LỖI HỆ THỐNG");
-            verifyResultLabel.setStyle("-fx-text-fill: #d9534f; -fx-font-weight: bold; -fx-font-size: 16px;");
-            verifyIndicator.setFill(Color.web("#d9534f"));
+            verifyResultLabel.setStyle("-fx-text-fill: #f43f5e; -fx-font-weight: bold; -fx-font-size: 16px;");
+            verifyIndicator.setStyle("-fx-fill: #f43f5e;");
             verifyStatusLabel.setText("Lỗi không xác định: " + e.getMessage());
-            verifyStatusLabel.setStyle("-fx-text-fill: #d9534f;");
+            verifyStatusLabel.setStyle("-fx-text-fill: #f43f5e;");
         }
     }
 
@@ -441,7 +472,43 @@ public class DSAController implements Initializable {
             content.putString(signatureArea.getText());
             clipboard.setContent(content);
             signStatusLabel.setText("Đã sao chép chữ ký vào clipboard!");
-            signStatusLabel.setStyle("-fx-text-fill: #5bc0de;");
+            signStatusLabel.setStyle("-fx-text-fill: #38bdf8;");
+        }
+    }
+
+    /**
+     * Sao chép thông điệp ký vào clipboard
+     */
+    @FXML
+    private void handleCopyMessage() {
+        if (messageArea.getText() != null && !messageArea.getText().isEmpty()) {
+            javafx.scene.input.Clipboard clipboard = javafx.scene.input.Clipboard.getSystemClipboard();
+            javafx.scene.input.ClipboardContent content = new javafx.scene.input.ClipboardContent();
+            content.putString(messageArea.getText());
+            clipboard.setContent(content);
+            signStatusLabel.setText("Đã sao chép thông điệp vào clipboard!");
+            signStatusLabel.setStyle("-fx-text-fill: #38bdf8;");
+        } else {
+            signStatusLabel.setText("Chưa có thông điệp để sao chép!");
+            signStatusLabel.setStyle("-fx-text-fill: #f43f5e;");
+        }
+    }
+
+    /**
+     * Sao chép thông điệp cần xác minh vào clipboard
+     */
+    @FXML
+    private void handleCopyVerifyMessage() {
+        if (verifyMessageArea.getText() != null && !verifyMessageArea.getText().isEmpty()) {
+            javafx.scene.input.Clipboard clipboard = javafx.scene.input.Clipboard.getSystemClipboard();
+            javafx.scene.input.ClipboardContent content = new javafx.scene.input.ClipboardContent();
+            content.putString(verifyMessageArea.getText());
+            clipboard.setContent(content);
+            verifyStatusLabel.setText("Đã sao chép thông điệp xác minh vào clipboard!");
+            verifyStatusLabel.setStyle("-fx-text-fill: #38bdf8;");
+        } else {
+            verifyStatusLabel.setText("Chưa có thông điệp xác minh để sao chép!");
+            verifyStatusLabel.setStyle("-fx-text-fill: #f43f5e;");
         }
     }
 
@@ -452,7 +519,7 @@ public class DSAController implements Initializable {
     private void handleSavePrivateKey() {
         if (!dsaModel.hasKeyPair()) {
             keyStatusLabel.setText("Chưa có cặp khóa! Vui lòng sinh khóa trước.");
-            keyStatusLabel.setStyle("-fx-text-fill: #d9534f;");
+            keyStatusLabel.setStyle("-fx-text-fill: #f43f5e;");
             return;
         }
         
@@ -485,10 +552,10 @@ public class DSAController implements Initializable {
                 writer.println("-----END DSA PRIVATE KEY (BASE64)-----");
                 
                 keyStatusLabel.setText("Đã lưu khóa bí mật vào: " + file.getName());
-                keyStatusLabel.setStyle("-fx-text-fill: #5cb85c;");
+                keyStatusLabel.setStyle("-fx-text-fill: #2dd4a0;");
             } catch (Exception ex) {
                 keyStatusLabel.setText("Lỗi lưu khóa bí mật: " + ex.getMessage());
-                keyStatusLabel.setStyle("-fx-text-fill: #d9534f;");
+                keyStatusLabel.setStyle("-fx-text-fill: #f43f5e;");
             }
         }
     }
@@ -500,7 +567,7 @@ public class DSAController implements Initializable {
     private void handleSavePublicKey() {
         if (!dsaModel.hasKeyPair()) {
             keyStatusLabel.setText("Chưa có cặp khóa! Vui lòng sinh khóa trước.");
-            keyStatusLabel.setStyle("-fx-text-fill: #d9534f;");
+            keyStatusLabel.setStyle("-fx-text-fill: #f43f5e;");
             return;
         }
         
@@ -533,10 +600,10 @@ public class DSAController implements Initializable {
                 writer.println("-----END DSA PUBLIC KEY (BASE64)-----");
                 
                 keyStatusLabel.setText("Đã lưu khóa công khai vào: " + file.getName());
-                keyStatusLabel.setStyle("-fx-text-fill: #5cb85c;");
+                keyStatusLabel.setStyle("-fx-text-fill: #2dd4a0;");
             } catch (Exception ex) {
                 keyStatusLabel.setText("Lỗi lưu khóa công khai: " + ex.getMessage());
-                keyStatusLabel.setStyle("-fx-text-fill: #d9534f;");
+                keyStatusLabel.setStyle("-fx-text-fill: #f43f5e;");
             }
         }
     }
@@ -578,13 +645,13 @@ public class DSAController implements Initializable {
                 if (p != null && q != null && g != null && x != null) {
                     dsaModel.setPrivateKeyAndParams(p, q, g, x);
                     signKeyStatusLabel.setText("Đã tải khóa từ file: " + file.getName() + " (" + p.bitLength() + " bit)");
-                    signKeyStatusLabel.setStyle("-fx-text-fill: #7bed9f;");
+                    signKeyStatusLabel.setStyle("-fx-text-fill: #34d399;");
                     signStatusLabel.setText("Tải khóa bí mật thành công!");
-                    signStatusLabel.setStyle("-fx-text-fill: #5cb85c;");
+                    signStatusLabel.setStyle("-fx-text-fill: #2dd4a0;");
                     
                     // Cập nhật nhãn trạng thái bên tab xác minh vì khóa mới vừa được tải
                     verifyKeyStatusLabel.setText("Đã đồng bộ khóa từ file bí mật (" + p.bitLength() + " bit)");
-                    verifyKeyStatusLabel.setStyle("-fx-text-fill: #7bed9f;");
+                    verifyKeyStatusLabel.setStyle("-fx-text-fill: #34d399;");
 
                     // Đồng bộ giao diện Tab 1
                     paramPArea.setText(p.toString(16).toUpperCase());
@@ -596,7 +663,7 @@ public class DSAController implements Initializable {
                     keyResultBox.setVisible(true);
                     keyResultBox.setManaged(true);
                     keyStatusLabel.setText("Đã đồng bộ khóa bí mật vừa tải");
-                    keyStatusLabel.setStyle("-fx-text-fill: #5cb85c;");
+                    keyStatusLabel.setStyle("-fx-text-fill: #2dd4a0;");
                     
                     actualPrivateKeyHex = x.toString(16).toUpperCase();
                     if (isPrivateKeyVisible) {
@@ -609,11 +676,11 @@ public class DSAController implements Initializable {
                     updateKeyDetailsUI();
                 } else {
                     signStatusLabel.setText("Lỗi: Định dạng file khóa bí mật không hợp lệ!");
-                    signStatusLabel.setStyle("-fx-text-fill: #d9534f;");
+                    signStatusLabel.setStyle("-fx-text-fill: #f43f5e;");
                 }
             } catch (Exception ex) {
                 signStatusLabel.setText("Lỗi đọc file khóa: " + ex.getMessage());
-                signStatusLabel.setStyle("-fx-text-fill: #d9534f;");
+                signStatusLabel.setStyle("-fx-text-fill: #f43f5e;");
             }
         }
     }
@@ -655,9 +722,9 @@ public class DSAController implements Initializable {
                 if (p != null && q != null && g != null && y != null) {
                     dsaModel.setPublicKeyAndParams(p, q, g, y);
                     verifyKeyStatusLabel.setText("Đã tải khóa từ file: " + file.getName() + " (" + p.bitLength() + " bit)");
-                    verifyKeyStatusLabel.setStyle("-fx-text-fill: #7bed9f;");
+                    verifyKeyStatusLabel.setStyle("-fx-text-fill: #34d399;");
                     verifyStatusLabel.setText("Tải khóa công khai thành công!");
-                    verifyStatusLabel.setStyle("-fx-text-fill: #5cb85c;");
+                    verifyStatusLabel.setStyle("-fx-text-fill: #2dd4a0;");
 
                     // Đồng bộ giao diện Tab 1
                     actualPrivateKeyHex = "";
@@ -671,16 +738,16 @@ public class DSAController implements Initializable {
                     keyResultBox.setVisible(true);
                     keyResultBox.setManaged(true);
                     keyStatusLabel.setText("Đã đồng bộ khóa công khai vừa tải");
-                    keyStatusLabel.setStyle("-fx-text-fill: #5cb85c;");
+                    keyStatusLabel.setStyle("-fx-text-fill: #2dd4a0;");
                     if (togglePrivateKeyBtn != null) togglePrivateKeyBtn.setText("Hiện");
                     updateKeyDetailsUI();
                 } else {
                     verifyStatusLabel.setText("Lỗi: Định dạng file khóa công khai không hợp lệ!");
-                    verifyStatusLabel.setStyle("-fx-text-fill: #d9534f;");
+                    verifyStatusLabel.setStyle("-fx-text-fill: #f43f5e;");
                 }
             } catch (Exception ex) {
                 verifyStatusLabel.setText("Lỗi đọc file khóa: " + ex.getMessage());
-                verifyStatusLabel.setStyle("-fx-text-fill: #d9534f;");
+                verifyStatusLabel.setStyle("-fx-text-fill: #f43f5e;");
             }
         }
     }
@@ -723,10 +790,10 @@ public class DSAController implements Initializable {
                 String content = readTextFile(file);
                 messageArea.setText(content);
                 signStatusLabel.setText("Đã tải thông điệp từ file: " + file.getName());
-                signStatusLabel.setStyle("-fx-text-fill: #5cb85c;");
+                signStatusLabel.setStyle("-fx-text-fill: #2dd4a0;");
             } catch (Exception ex) {
                 signStatusLabel.setText("Lỗi đọc file thông điệp: " + ex.getMessage());
-                signStatusLabel.setStyle("-fx-text-fill: #d9534f;");
+                signStatusLabel.setStyle("-fx-text-fill: #f43f5e;");
             }
         }
     }
@@ -751,10 +818,10 @@ public class DSAController implements Initializable {
                 String content = readTextFile(file);
                 verifyMessageArea.setText(content);
                 verifyStatusLabel.setText("Đã tải thông điệp xác minh từ file: " + file.getName());
-                verifyStatusLabel.setStyle("-fx-text-fill: #5cb85c;");
+                verifyStatusLabel.setStyle("-fx-text-fill: #2dd4a0;");
             } catch (Exception ex) {
                 verifyStatusLabel.setText("Lỗi đọc file thông điệp: " + ex.getMessage());
-                verifyStatusLabel.setStyle("-fx-text-fill: #d9534f;");
+                verifyStatusLabel.setStyle("-fx-text-fill: #f43f5e;");
             }
         }
     }
@@ -787,10 +854,10 @@ public class DSAController implements Initializable {
                 }
                 verifySignatureArea.setText(base64Sig);
                 verifyStatusLabel.setText("Đã tải chữ ký từ file: " + file.getName());
-                verifyStatusLabel.setStyle("-fx-text-fill: #5cb85c;");
+                verifyStatusLabel.setStyle("-fx-text-fill: #2dd4a0;");
             } catch (Exception ex) {
                 verifyStatusLabel.setText("Lỗi đọc file chữ ký: " + ex.getMessage());
-                verifyStatusLabel.setStyle("-fx-text-fill: #d9534f;");
+                verifyStatusLabel.setStyle("-fx-text-fill: #f43f5e;");
             }
         }
     }
@@ -905,7 +972,7 @@ public class DSAController implements Initializable {
         String signature = signatureArea.getText();
         if (signature == null || signature.trim().isEmpty()) {
             signStatusLabel.setText("Chưa có chữ ký! Vui lòng thực hiện ký số trước.");
-            signStatusLabel.setStyle("-fx-text-fill: #d9534f;");
+            signStatusLabel.setStyle("-fx-text-fill: #f43f5e;");
             return;
         }
         
@@ -928,10 +995,10 @@ public class DSAController implements Initializable {
                 writer.println("-----END DSA SIGNATURE-----");
                 
                 signStatusLabel.setText("Đã lưu chữ ký vào: " + file.getName());
-                signStatusLabel.setStyle("-fx-text-fill: #5cb85c;");
+                signStatusLabel.setStyle("-fx-text-fill: #2dd4a0;");
             } catch (Exception ex) {
                 signStatusLabel.setText("Lỗi lưu chữ ký: " + ex.getMessage());
-                signStatusLabel.setStyle("-fx-text-fill: #d9534f;");
+                signStatusLabel.setStyle("-fx-text-fill: #f43f5e;");
             }
         }
     }
@@ -944,7 +1011,7 @@ public class DSAController implements Initializable {
         String signature = signatureArea.getText();
         if (signature == null || signature.trim().isEmpty()) {
             signStatusLabel.setText("Chưa có chữ ký! Vui lòng thực hiện ký số trước.");
-            signStatusLabel.setStyle("-fx-text-fill: #d9534f;");
+            signStatusLabel.setStyle("-fx-text-fill: #f43f5e;");
             return;
         }
 
@@ -986,7 +1053,7 @@ public class DSAController implements Initializable {
             sigSAreaDec.setText(s.toString(10));
         } catch (Exception e) {
             signStatusLabel.setText("Lỗi tách chữ ký: " + e.getMessage());
-            signStatusLabel.setStyle("-fx-text-fill: #d9534f;");
+            signStatusLabel.setStyle("-fx-text-fill: #f43f5e;");
             sigDetailsBox.setVisible(false);
             sigDetailsBox.setManaged(false);
             isSigDetailsVisible = false;

@@ -22,14 +22,14 @@ public class DSAApplication extends Application {
         Parent root = loader.load();
 
         // Thiết lập Scene
-        Scene scene = new Scene(root, 950, 720);
+        Scene scene = new Scene(root, 1050, 780);
         scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
 
         // Thiết lập Stage
-        primaryStage.setTitle("DSA Digital Signature - Nhóm 9 ATBMTT");
+        primaryStage.setTitle("DSA Digital Signature — Nhóm 9 ATBMTT");
         primaryStage.setScene(scene);
-        primaryStage.setMinWidth(900);
-        primaryStage.setMinHeight(680);
+        primaryStage.setMinWidth(960);
+        primaryStage.setMinHeight(720);
         primaryStage.show();
     }
 
